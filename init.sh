@@ -29,7 +29,7 @@ curl https://raw.githubusercontent.com/ys1122live/Voucher/main/mysql.zip -o /hom
 unzip /home/ubuntu/mysql/data.zip -d /home/ubuntu/mysql/data
 rm /home/ubuntu/mysql/data.zip
 
-sudo docker run --name mysql --restart always -d  -p 3306:3306 -e TZ="Asia/Shanghai" -v /home/ubuntu/mysql/data:/var/lib/mysql -v /home/ubuntu/mysql/mysql-files:/var/lib/mysql-files -v /home/ubuntu/mysql/conf.d:/etc/mysql/conf.d mysql:8.0.27
+sudo docker run --name mysql --restart always -d -p 3306:3306 -e TZ="Asia/Shanghai" -v /home/ubuntu/mysql/data:/var/lib/mysql -v /home/ubuntu/mysql/mysql-files:/var/lib/mysql-files -v /home/ubuntu/mysql/conf.d:/etc/mysql/conf.d mysql:8.0.27
 sudo docker run --name dotnetcore --restart always -d -p 80:80 -e TZ="Asia/Shanghai" -v /home/ubuntu/app:/app dotnetcore:latest
 sudo docker run --name phpmyadmin --restart no -d -e PMA_HOST=172.17.0.2 -p 9001:80 phpmyadmin:latest
 sudo docker run --name portainer --restart no -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
