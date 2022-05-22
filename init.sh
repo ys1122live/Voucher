@@ -17,6 +17,7 @@ mkdir /home/ubuntu/mysql/mysql-files
 
 sudo docker pull mysql:8.0.27
 sudo docker pull phpmyadmin:latest
+sudo docker pull portainer/portainer-ce:latest
 
 curl https://raw.githubusercontent.com/ys1122live/Voucher/main/Dockerfile -o /home/ubuntu/docker/Dockerfile
 sudo docker build -t dotnetcore -f /home/ubuntu/docker/Dockerfile .
