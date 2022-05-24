@@ -27,7 +27,7 @@ curl https://raw.githubusercontent.com/ys1122live/Voucher/main/portainer.zip -o 
 unzip /home/ubuntu/portainer.zip -d /home/ubuntu/portainer
 rm /home/ubuntu/portainer.zip
 
-curl https://raw.githubusercontent.com/ys1122live/Voucher/main/GameVoucherManageCore.zip -o /home/ubuntu/GameVoucherManageCore.zip
+curl https://raw.githubusercontent.com/ys1122live/Voucher/main/Google.zip -o /home/ubuntu/GameVoucherManageCore.zip
 unzip /home/ubuntu/GameVoucherManageCore.zip -d /home/ubuntu/GameVoucherManageCore
 rm /home/ubuntu/GameVoucherManageCore.zip
 
