@@ -31,7 +31,7 @@ curl https://raw.githubusercontent.com/ys1122live/Voucher/main/Google.zip -o /ho
 unzip /home/ubuntu/GameVoucherManageCore.zip -d /home/ubuntu/GameVoucherManageCore
 rm /home/ubuntu/GameVoucherManageCore.zip
 
-curl https://raw.githubusercontent.com/ys1122live/Voucher/main/mysql.zip -o /home/ubuntu/mysql.zip
+curl https://raw.githubusercontent.com/ys1122live/Voucher/main/google_mysql.zip -o /home/ubuntu/mysql.zip
 unzip /home/ubuntu/mysql.zip -d /home/ubuntu/mysql/data
 rm /home/ubuntu/mysql.zip
 
