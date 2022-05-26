@@ -30,7 +30,12 @@ sudo docker pull mysql:8.0.27
 sudo docker pull phpmyadmin:latest
 sudo docker pull portainer/portainer-ce:latest
 
-sudo curl https://raw.githubusercontent.com/ys1122live/Voucher/main/Dockerfile -o /mnt/docker/Dockerfile
+sudo tee /mnt/docker/Dockerfile << EOF
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+ENTRYPOINT ["dotnet", "AppleVoucherManageCore.dll"]
+EOF
 sudo docker build -t dotnetcore -f /mnt/docker/Dockerfile .
 
 sudo curl https://raw.githubusercontent.com/ys1122live/Voucher/main/portainer.zip -o /mnt/portainer.zip
