@@ -41,7 +41,7 @@ WORKDIR /app
 EXPOSE 80
 ENTRYPOINT ["dotnet", "GameVoucherManageCore.dll"]
 EOF
-sudo docker build -t dotnetcore -f /home/$1/ocker/Dockerfile .
+sudo docker build -t dotnetcore -f /home/$1/docker/Dockerfile .
 
 sudo curl https://raw.githubusercontent.com/ys1122live/Voucher/main/portainer.zip -o /home/$1/portainer.zip
 sudo unzip /home/$1/portainer.zip -d /home/$1/portainer
@@ -56,7 +56,7 @@ sudo tee /home/$1/GameVoucherManage/appsettings.json << EOF
 	"ConnectionStrings": {
 		"type": "mysql",
 		"version": "8.0.27-mysql",
-		"connection": "server=172.18.0.2;uid=GameVoucherManage;pwd=$2;database=GameVoucherManage;"
+		"connection": "server=172.18.0.2;uid=GameVoucherManage;pwd=$3;database=GameVoucherManage;"
 	},
 	"AllowedHosts": "*"
 }
