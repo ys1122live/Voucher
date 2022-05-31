@@ -25,7 +25,7 @@ sudo mkdir /home/$USER/mysql/data
 sudo mkdir /home/$USER/mysql/mysql-files
 sudo mkdir /home/$USER/portainer
 
-sudo docker pull mysql:8.0.27
+sudo docker pull mysql:latest
 sudo docker pull phpmyadmin:latest
 sudo docker pull portainer/portainer-ce:latest
 
@@ -55,7 +55,7 @@ EOF
 
 sudo docker network create --subnet=172.18.0.0/24 network
 
-sudo docker run --name mysql --restart always -d -p 3306:3306 --network network --ip 172.18.0.2 -e TZ="Asia/Shanghai" -e MYSQL_ROOT_PASSWORD=$1 -e MYSQL_DATABASE=AppleVoucherManage -e MYSQL_USER=AppleVoucherManage -e MYSQL_PASSWORD=$2 -v /home/$USER/mysql/data:/var/lib/mysql -v /home/$USER/mysql/mysql-files:/var/lib/mysql-files -v /home/$USER/mysql/conf.d:/etc/mysql/conf.d mysql:8.0.27
+sudo docker run --name mysql --restart always -d -p 3306:3306 --network network --ip 172.18.0.2 -e TZ="Asia/Shanghai" -e MYSQL_ROOT_PASSWORD=$1 -e MYSQL_DATABASE=AppleVoucherManage -e MYSQL_USER=AppleVoucherManage -e MYSQL_PASSWORD=$2 -v /home/$USER/mysql/data:/var/lib/mysql -v /home/$USER/mysql/mysql-files:/var/lib/mysql-files -v /home/$USER/mysql/conf.d:/etc/mysql/conf.d mysql:latest
 sleep 20s
 sudo curl https://raw.githubusercontent.com/ys1122live/Voucher/main/AppleVoucherManage.sql -o /home/$USER/AppleVoucherManage.sql
 sudo docker exec -i mysql sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" AppleVoucherManage' < /home/$USER/AppleVoucherManage.sql
@@ -64,7 +64,7 @@ sleep 10s
 sudo docker stop mysql
 sudo docker rm mysql
 
-sudo docker run --name mysql --restart always -d -p 3306:3306 --network network --ip 172.18.0.2 -e TZ="Asia/Shanghai" -v /home/$USER/mysql/data:/var/lib/mysql -v /home/$USER/mysql/mysql-files:/var/lib/mysql-files -v /home/$USER/mysql/conf.d:/etc/mysql/conf.d mysql:8.0.27
+sudo docker run --name mysql --restart always -d -p 3306:3306 --network network --ip 172.18.0.2 -e TZ="Asia/Shanghai" -v /home/$USER/mysql/data:/var/lib/mysql -v /home/$USER/mysql/mysql-files:/var/lib/mysql-files -v /home/$USER/mysql/conf.d:/etc/mysql/conf.d mysql:latest
 sudo docker run --name AppleVoucherManage --restart always -d -p 80:80 --network network --ip 172.18.0.3 -e TZ="Asia/Shanghai" -v /home/$USER/AppleVoucherManage:/app --cgroupns host dotnetcore:latest
 sudo docker run --name phpmyadmin --restart no -d -p 9001:80 --network network --ip 172.18.0.10 -e PMA_HOST=172.18.0.2 phpmyadmin:latest
 sudo docker run --name portainer --restart no -d -p 9000:9000 --network network --ip 172.18.0.11 -v /home/$USER/portainer:/data -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
