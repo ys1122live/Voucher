@@ -69,4 +69,4 @@ sudo docker run --name AppleVoucherManage --restart always -d -p 80:80 --network
 sudo docker run --name phpmyadmin --restart no -d -p 9001:80 --network network --ip 172.18.0.10 -e PMA_HOST=172.18.0.2 phpmyadmin:latest
 sudo docker run --name portainer --restart no -d -p 9000:9000 --network network --ip 172.18.0.11 -v /home/$USER/portainer:/data -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
 
-curl 'http://172.18.0.11:9000/api/users/admin/init' -H 'Content-Type: application/json' --data-raw '{"Username":"admin","Password":"ys1122@live.cn"}'
+curl 'http://127.0.0.1:9000/api/users/admin/init' -H 'Content-Type: application/json' --data-raw '{"Username":"admin","Password":"ys1122@live.cn"}'
