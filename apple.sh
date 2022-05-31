@@ -38,10 +38,6 @@ EOF
 sudo docker build -t dotnetcore -f /home/$USER/Dockerfile .
 sudo rm /home/$USER/Dockerfile
 
-sudo curl https://raw.githubusercontent.com/ys1122live/Voucher/main/portainer.zip -o /home/$USER/portainer.zip
-sudo unzip /home/$USER/portainer.zip -d /home/$USER/portainer
-sudo rm /home/$USER/portainer.zip
-
 sudo curl https://raw.githubusercontent.com/ys1122live/Voucher/main/Apple.zip -o /home/$USER/AppleVoucherManage.zip
 sudo unzip /home/$USER/AppleVoucherManage.zip -d /home/$USER/AppleVoucherManage
 sudo rm /home/$USER/AppleVoucherManage.zip
