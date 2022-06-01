@@ -65,7 +65,7 @@ sudo docker stop mysql
 sudo docker rm mysql
 
 sudo docker run --name mysql --restart always -d -p 3306:3306 --network network --ip 172.18.0.2 -e TZ="Asia/Shanghai" -v /home/$USER/mysql/data:/var/lib/mysql -v /home/$USER/mysql/mysql-files:/var/lib/mysql-files -v /home/$USER/mysql/conf.d:/etc/mysql/conf.d mysql:8.0.27
-sudo docker run --name AppleVoucherManage --restart always -d -p 80:80 --network network --ip 172.18.0.3 -e TZ="Asia/Shanghai" -v /home/$USER/AppleVoucherManage:/app --cgroupns host dotnetcore:latest
+sudo docker run --name AppleVoucherManage --restart always -d -p 80:80 -p 8898:80 --network network --ip 172.18.0.3 -e TZ="Asia/Shanghai" -v /home/$USER/AppleVoucherManage:/app --cgroupns host dotnetcore:latest
 sudo docker run --name phpmyadmin --restart no -d -p 9001:80 --network network --ip 172.18.0.10 -e PMA_HOST=172.18.0.2 phpmyadmin:latest
 sudo docker run --name portainer --restart no -d -p 9000:9000 --network network --ip 172.18.0.11 -v /home/$USER/portainer:/data -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
 
