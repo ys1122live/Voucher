@@ -19,30 +19,30 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docke
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
 
-sudo mkdir /home/$USER/GameVoucherManage
-sudo mkdir /home/$USER/mysql
-sudo mkdir /home/$USER/mysql/data
-sudo mkdir /home/$USER/mysql/mysql-files
-sudo mkdir /home/$USER/portainer
+mkdir /home/$USER/GameVoucherManage
+mkdir /home/$USER/mysql
+mkdir /home/$USER/mysql/data
+mkdir /home/$USER/mysql/mysql-files
+mkdir /home/$USER/portainer
 
 sudo docker pull mysql:8.0.27
 sudo docker pull phpmyadmin:latest
 sudo docker pull portainer/portainer-ce:latest
 
-sudo tee /home/$USER/Dockerfile << EOF
+tee /home/$USER/Dockerfile << EOF
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 ENTRYPOINT ["dotnet", "GameVoucherManageCore.dll"]
 EOF
 sudo docker build -t dotnetcore -f /home/$USER/Dockerfile .
-sudo rm /home/$USER/Dockerfile
+rm /home/$USER/Dockerfile
 
-sudo curl https://raw.githubusercontent.com/ys1122live/Voucher/main/Google.zip -o /home/$USER/GameVoucherManage.zip
-sudo unzip /home/$USER/GameVoucherManage.zip -d /home/$USER/GameVoucherManage
-sudo rm /home/$USER/GameVoucherManage.zip
+curl https://raw.githubusercontent.com/ys1122live/Voucher/main/Google.zip -o /home/$USER/GameVoucherManage.zip
+unzip /home/$USER/GameVoucherManage.zip -d /home/$USER/GameVoucherManage
+rm /home/$USER/GameVoucherManage.zip
 
-sudo tee /home/$USER/GameVoucherManage/appsettings.json << EOF
+tee /home/$USER/GameVoucherManage/appsettings.json << EOF
 {
 	"ConnectionStrings": {
 		"type": "mysql",
@@ -57,9 +57,9 @@ sudo docker network create --subnet=172.18.0.0/24 network
 
 sudo docker run --name mysql --restart always -d -p 3306:3306 --network network --ip 172.18.0.2 -e TZ="Asia/Shanghai" -e MYSQL_ROOT_PASSWORD=$1 -e MYSQL_DATABASE=GameVoucherManage -e MYSQL_USER=GameVoucherManage -e MYSQL_PASSWORD=$2 -v /home/$USER/mysql/data:/var/lib/mysql -v /home/$USER/mysql/mysql-files:/var/lib/mysql-files -v /home/$USER/mysql/conf.d:/etc/mysql/conf.d mysql:8.0.27
 sleep 20s
-sudo curl https://raw.githubusercontent.com/ys1122live/Voucher/main/GameVoucherManage.sql -o /home/$USER/GameVoucherManage.sql
+curl https://raw.githubusercontent.com/ys1122live/Voucher/main/GameVoucherManage.sql -o /home/$USER/GameVoucherManage.sql
 sudo docker exec -i mysql sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" GameVoucherManage' < /home/$USER/GameVoucherManage.sql
-sudo rm /home/$USER/GameVoucherManage.sql
+rm /home/$USER/GameVoucherManage.sql
 sleep 10s
 sudo docker stop mysql
 sudo docker rm mysql
