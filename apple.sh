@@ -41,6 +41,7 @@ rm /home/$USER/Dockerfile
 curl https://raw.githubusercontent.com/ys1122live/Voucher/main/Apple.zip -o /home/$USER/AppleVoucherManage.zip
 unzip /home/$USER/AppleVoucherManage.zip -d /home/$USER/AppleVoucherManage
 rm /home/$USER/AppleVoucherManage.zip
+mkdir /home/$USER/AppleVoucherManage/wwwroot/cydia/debs
 
 tee /home/$USER/AppleVoucherManage/appsettings.json << EOF
 {
