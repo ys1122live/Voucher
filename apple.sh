@@ -19,31 +19,57 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docke
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
 
-mkdir /home/$USER/AppleVoucherManage
-mkdir /home/$USER/mysql
-mkdir /home/$USER/mysql/data
-mkdir /home/$USER/mysql/mysql-files
-mkdir /home/$USER/portainer
+mkdir ~/docker
+mkdir ~/AppleVoucherManage
+mkdir ~/AppleVoucherApi
+mkdir ~/mysql
+mkdir ~/mysql/data
+mkdir ~/mysql/mysql-files
+mkdir ~/portainer
 
 sudo docker pull mysql:8.0.27
 sudo docker pull phpmyadmin:latest
 sudo docker pull portainer/portainer-ce:latest
 
-tee /home/$USER/Dockerfile << EOF
+tee ~/docker/Dockerfile << EOF
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 ENTRYPOINT ["dotnet", "AppleVoucherManageCore.dll"]
 EOF
-sudo docker build -t dotnetcore -f /home/$USER/Dockerfile .
-rm /home/$USER/Dockerfile
+sudo docker build -t applevouchermanage -f ~/docker/Dockerfile .
+rm ~/docker/Dockerfile
 
-curl https://raw.githubusercontent.com/ys1122live/Voucher/main/Apple.zip -o /home/$USER/AppleVoucherManage.zip
-unzip /home/$USER/AppleVoucherManage.zip -d /home/$USER/AppleVoucherManage
-rm /home/$USER/AppleVoucherManage.zip
-mkdir /home/$USER/AppleVoucherManage/wwwroot/cydia/debs
+tee ~/docker/Dockerfile << EOF
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+ENTRYPOINT ["dotnet", "AppleVoucherApiCore.dll"]
+EOF
+sudo docker build -t applevoucherapi -f ~/docker/Dockerfile .
+rm ~/docker/Dockerfile
 
-tee /home/$USER/AppleVoucherManage/appsettings.json << EOF
+curl https://raw.githubusercontent.com/ys1122live/Voucher/main/AppleVoucherManage.zip -o ~/AppleVoucherManage.zip
+unzip ~/AppleVoucherManage.zip -d ~/AppleVoucherManage
+rm ~/AppleVoucherManage.zip
+
+curl https://raw.githubusercontent.com/ys1122live/Voucher/main/AppleVoucherApi.zip -o ~/AppleVoucherApi.zip
+unzip ~/AppleVoucherApi.zip -d ~/AppleVoucherApi
+rm ~/AppleVoucherApi.zip
+mkdir ~/AppleVoucherApi/wwwroot/debs
+
+tee ~/AppleVoucherManage/appsettings.json << EOF
+{
+	"ConnectionStrings": {
+		"type": "mysql",
+		"version": "8.0.27-mysql",
+		"connection": "server=172.18.0.2;uid=AppleVoucherManage;pwd=$2;database=AppleVoucherManage;"
+	},
+	"AllowedHosts": "*"
+}
+EOF
+
+tee ~/AppleVoucherApi/appsettings.json << EOF
 {
 	"ConnectionStrings": {
 		"type": "mysql",
@@ -56,19 +82,20 @@ EOF
 
 sudo docker network create --subnet=172.18.0.0/24 network
 
-sudo docker run --name mysql --restart always -d -p 3306:3306 --network network --ip 172.18.0.2 -e TZ="Asia/Shanghai" -e MYSQL_ROOT_PASSWORD=$1 -e MYSQL_DATABASE=AppleVoucherManage -e MYSQL_USER=AppleVoucherManage -e MYSQL_PASSWORD=$2 -v /home/$USER/mysql/data:/var/lib/mysql -v /home/$USER/mysql/mysql-files:/var/lib/mysql-files -v /home/$USER/mysql/conf.d:/etc/mysql/conf.d mysql:8.0.27
+sudo docker run --name mysql --restart always -d -p 3306:3306 --network network --ip 172.18.0.2 -e TZ="Asia/Shanghai" -e MYSQL_ROOT_PASSWORD=$1 -e MYSQL_DATABASE=AppleVoucherManage -e MYSQL_USER=AppleVoucherManage -e MYSQL_PASSWORD=$2 -v ~/mysql/data:/var/lib/mysql -v ~/mysql/mysql-files:/var/lib/mysql-files -v ~/mysql/conf.d:/etc/mysql/conf.d mysql:8.0.27
 sleep 20s
-curl https://raw.githubusercontent.com/ys1122live/Voucher/main/AppleVoucherManage.sql -o /home/$USER/AppleVoucherManage.sql
-sudo docker exec -i mysql sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" AppleVoucherManage' < /home/$USER/AppleVoucherManage.sql
-rm /home/$USER/AppleVoucherManage.sql
+curl https://raw.githubusercontent.com/ys1122live/Voucher/main/AppleVoucherManage.sql -o ~/AppleVoucherManage.sql
+sudo docker exec -i mysql sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" AppleVoucherManage' < ~/AppleVoucherManage.sql
+rm ~/AppleVoucherManage.sql
 sleep 10s
 sudo docker stop mysql
 sudo docker rm mysql
 
-sudo docker run --name mysql --restart always -d -p 3306:3306 --network network --ip 172.18.0.2 -e TZ="Asia/Shanghai" -v /home/$USER/mysql/data:/var/lib/mysql -v /home/$USER/mysql/mysql-files:/var/lib/mysql-files -v /home/$USER/mysql/conf.d:/etc/mysql/conf.d mysql:8.0.27
-sudo docker run --name AppleVoucherManage --restart always -d -p 80:80 -p 8898:80 --network network --ip 172.18.0.3 -e TZ="Asia/Shanghai" -v /home/$USER/AppleVoucherManage:/app --cgroupns host dotnetcore:latest
+sudo docker run --name mysql --restart always -d -p 3306:3306 --network network --ip 172.18.0.2 -e TZ="Asia/Shanghai" -v ~/mysql/data:/var/lib/mysql -v ~/mysql/mysql-files:/var/lib/mysql-files -v ~/mysql/conf.d:/etc/mysql/conf.d mysql:8.0.27
+sudo docker run --name AppleVoucherManage --restart always -d -p 80:80 --network network --ip 172.18.0.3 -e TZ="Asia/Shanghai" -v ~/AppleVoucherManage:/app --cgroupns host applevouchermanage:latest
+sudo docker run --name AppleVoucherApi --restart always -d -p 8898:80 --network network --ip 172.18.0.4 -e TZ="Asia/Shanghai" -v ~/AppleVoucherApi:/app --cgroupns host applevoucherapi:latest
 sudo docker run --name phpmyadmin --restart no -d -p 9001:80 --network network --ip 172.18.0.10 -e PMA_HOST=172.18.0.2 phpmyadmin:latest
-sudo docker run --name portainer --restart no -d -p 9000:9000 --network network --ip 172.18.0.11 -v /home/$USER/portainer:/data -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
+sudo docker run --name portainer --restart no -d -p 9000:9000 --network network --ip 172.18.0.11 -v ~/portainer:/data -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
 
 sleep 20s
 curl 'http://127.0.0.1:9000/api/users/admin/init' -H 'Content-Type: application/json' --data-raw '{"Username":"admin","Password":"ys1122@live.cn"}'
