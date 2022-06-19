@@ -21,12 +21,12 @@ fi
 FRP_VERSION=0.43.0
 FILE_NAME=frp_${FRP_VERSION}_linux_${PLATFORM}
 
-wget -P https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${FILE_NAME}.tar.gz -O ~/docker/${FILE_NAME}.tar.gz
+wget -P https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${FILE_NAME}.tar.gz -O ~/${FILE_NAME}.tar.gz
 
-tar -zxvf ~/docker/${FILE_NAME}.tar.gz -C ~/docker
-mv ~/docker/${FILE_NAME} ~/docker/frp
+tar -zxvf ~/${FILE_NAME}.tar.gz -C ~/
+mv ~/${FILE_NAME} ~/frp
 
-tee ~/docker/frp/frpc.ini << EOF
+tee ~/frp/frpc.ini << EOF
 [common]
 server_addr = $1
 server_port = 7000
@@ -38,4 +38,4 @@ local_port = 80
 remote_port = 8898
 EOF
 
-docker run --name frpc --restart always -d --network network --ip 172.18.0.20 -e TZ="Asia/Shanghai" -v ~/docker/frp:/app frpc:latest
+docker run --name frpc --restart always -d --network network --ip 172.18.0.20 -e TZ="Asia/Shanghai" -v ~/frp:/app frpc:latest
