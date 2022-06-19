@@ -21,14 +21,14 @@ fi
 FRP_VERSION=0.43.0
 FILE_NAME=frp_${FRP_VERSION}_linux_${PLATFORM}
 
-wget -P https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/FILE_NAME.tar.gz -O ~/docker/${FILE_NAME}.tar.gz
+wget -P https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${FILE_NAME}.tar.gz -O ~/docker/${FILE_NAME}.tar.gz
 
 tar -zxvf ~/docker/${FILE_NAME}.tar.gz -C ~/docker
 mv ~/docker/${FILE_NAME} ~/docker/frp
 
 tee ~/docker/frp/frpc.ini << EOF
 [common]
-server_addr = 111.224.193.26
+server_addr = $1
 server_port = 7000
 
 [api]
