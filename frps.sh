@@ -21,7 +21,7 @@ fi
 FRP_VERSION=0.43.0
 FILE_NAME=frp_${FRP_VERSION}_linux_${PLATFORM}
 
-wget -P https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${FILE_NAME}.tar.gz -O ~/${FILE_NAME}.tar.gz
+curl https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${FILE_NAME}.tar.gz -o ~/${FILE_NAME}.tar.gz
 
 tar -zxvf ~/${FILE_NAME}.tar.gz -C ~/
 mv ~/${FILE_NAME} ~/frp
