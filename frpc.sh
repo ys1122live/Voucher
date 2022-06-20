@@ -1,14 +1,14 @@
-mkdir -p ~/docker/build
+mkdir -p ~/docker
 
-tee ~/docker/build/Dockerfile << EOF
+tee ~/docker/Dockerfile << EOF
 FROM alpine:latest
 RUN apk update
 WORKDIR /app
 ENTRYPOINT ["/app/frpc", "-c", "frpc.ini"]
 EOF
 
-docker build -t frpc -f ~/docker/build/Dockerfile .
-rm ~/docker/build/Dockerfile
+docker build -t frpc -f ~/docker/Dockerfile .
+rm ~/docker/Dockerfile
 
 if [ $(uname -m) = "x86_64" ]; then
     PLATFORM=amd64
@@ -21,7 +21,7 @@ fi
 FRP_VERSION=0.43.0
 FILE_NAME=frp_${FRP_VERSION}_linux_${PLATFORM}
 
-wget -P https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${FILE_NAME}.tar.gz -O ~/${FILE_NAME}.tar.gz
+curl https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${FILE_NAME}.tar.gz -o ~/${FILE_NAME}.tar.gz
 
 tar -zxvf ~/${FILE_NAME}.tar.gz -C ~/
 mv ~/${FILE_NAME} ~/frp
