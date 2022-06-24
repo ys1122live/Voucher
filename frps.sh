@@ -31,4 +31,4 @@ tee ~/frp/frps.ini << EOF
 bind_port = 7000
 EOF
 
-docker run --name frps --restart always -d --network network --ip 172.18.0.20 -p 7000:7000 -p 8898:8898 -e TZ="Asia/Shanghai" -v ~/frp:/app frps:latest
+docker run --name frps --restart always -d -p 7000:7000 -p 8898:8898 -e TZ="Asia/Shanghai" -v ~/frp:/app frps:latest
