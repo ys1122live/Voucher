@@ -46,21 +46,39 @@ mkdir ~/AppleVoucherApi/wwwroot/debs
 
 tee ~/AppleVoucherManage/appsettings.json << EOF
 {
-	"ConnectionStrings": {
-		"version": "8.0.27-mysql",
-		"connection": "server=172.18.0.2;uid=AppleVoucherManage;pwd=$2;database=AppleVoucherManage;"
-	},
-	"AllowedHosts": "*"
+  "Logging": {
+    "LogLevel": {
+      "Microsoft.AspNetCore.Mvc": "Warning",
+      "Microsoft.AspNetCore.Routing": "Warning",
+      "Microsoft.AspNetCore.Session": "Warning",
+      "Microsoft.AspNetCore.StaticFiles": "Warning",
+      "Microsoft.EntityFrameworkCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "version": "8.0.27-mysql",
+    "connection": "server=172.18.0.2;uid=AppleVoucherManage;pwd=$2;database=AppleVoucherManage;"
+  },
+  "AllowedHosts": "*"
 }
 EOF
 
 tee ~/AppleVoucherApi/appsettings.json << EOF
 {
-	"ConnectionStrings": {
-		"version": "8.0.27-mysql",
-		"connection": "server=172.18.0.2;uid=AppleVoucherManage;pwd=$2;database=AppleVoucherManage;"
-	},
-	"AllowedHosts": "*"
+  "Logging": {
+    "LogLevel": {
+      "Microsoft.AspNetCore.Mvc": "Warning",
+      "Microsoft.AspNetCore.Routing": "Warning",
+      "Microsoft.AspNetCore.Session": "Warning",
+      "Microsoft.AspNetCore.StaticFiles": "Warning",
+      "Microsoft.EntityFrameworkCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "version": "8.0.27-mysql",
+    "connection": "server=172.18.0.2;uid=AppleVoucherManage;pwd=$2;database=AppleVoucherManage;"
+  },
+  "AllowedHosts": "*"
 }
 EOF
 
