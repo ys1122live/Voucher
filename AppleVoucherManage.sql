@@ -112,7 +112,8 @@ CREATE TABLE `GamePrice` (
   `Symbol` varchar(100) NOT NULL,
   `Currency` varchar(100) NOT NULL,
   `CurrencyCode` varchar(100) NOT NULL,
-  `UpdateTime` datetime NOT NULL
+  `UpdateTime` datetime NOT NULL,
+  `Show` BOOLEAN NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
