@@ -26,7 +26,7 @@ mkdir ~/portainer
 sudo docker pull portainer/portainer-ce:latest
 sudo docker pull mcr.microsoft.com/dotnet/aspnet:6.0
 
-curl https://github.com/ys1122live/Voucher/raw/main/GameVoucherApi.zip -o ~/GameVoucherApi.zip
+curl https://raw.githubusercontent.com/ys1122live/Voucher/main/GameVoucherApi.zip -o ~/GameVoucherApi.zip
 unzip ~/GameVoucherApi.zip -d ~/GameVoucherApi
 chmod +x ~/GameVoucherApi/GameVoucherApiCore
 rm ~/GameVoucherApi.zip
