@@ -300,6 +300,22 @@ CREATE TABLE `User` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
+-- 表的结构 `Veto`
+--
+
+CREATE TABLE `Veto` (
+  `Id` int NOT NULL,
+  `PackageName` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- 转存表中的数据 `Veto`
+--
+
+INSERT INTO `Veto` (`Id`, `PackageName`) VALUES
+(1, 'com.igs.fafafa');
+
+--
 -- 转储表的索引
 --
 
@@ -390,6 +406,12 @@ ALTER TABLE `User`
   ADD PRIMARY KEY (`Id`);
 
 --
+-- 表的索引 `Veto`
+--
+ALTER TABLE `Veto`
+  ADD PRIMARY KEY (`Id`);
+  
+--
 -- 在导出的表使用AUTO_INCREMENT
 --
 
@@ -440,6 +462,13 @@ ALTER TABLE `StoreLog`
 --
 ALTER TABLE `User`
   MODIFY `Id` int NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+--
+-- 使用表AUTO_INCREMENT `Veto`
+--
+ALTER TABLE `Veto`
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
